@@ -92,3 +92,26 @@ picoCTF{549698}
 https://medium.com/@Oscar404/cracking-picoctf-challenge-gdb-baby-step-1-2d77e8eab818
 
 ***
+# 3. ARMssembly1
+> For what argument does this program print `win` with variables 81, 0 and 3? File: chall_1.S Flag format: picoCTF{XXXXXXXX} -> (hex, lowercase, no 0x, and 32 bits. ex. 5614267 would be picoCTF{0055aabb})
+
+## Solution:
+- I used the file command on the file and understood that it contains this assembler source ASCII text
+- So when i opened the code in vscode i saw the string "You win" inside .L0
+- Upon reading the concept of assembly code syntax, was able to understand that in main func, .L0 gets printed when func returns 0. SO i was checkign what was entering the function
+- Its storing diff values in registers by givin specific addresses, in the end it does shifting which was given in the hint.
+- I got 81<<0 /3 which is 27, i used a calculator for doing this shift.
+- Upon converting it to 32 hex i got the flag.
+
+## Flag:
+```
+picoCTF{0000001b}
+```
+
+## Concepts learnt:
+- How to read Assembly code and how to decode using this.
+
+## Notes:
+- The full solution is my notes.
+
+***
