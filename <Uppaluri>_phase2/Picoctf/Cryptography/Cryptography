@@ -1,0 +1,12 @@
+# 1. miniRSA
+
+## Solution: 
+- I just went into RSA cipher decryption. and decrypted it using the given values.
+
+## flag: 
+```
+picoCTF{n33d_a_lArg3r_e_ccaa7776}
+```
+
+## Resources: 
+- This is what i used to decrypt. https://www.dcode.fr/rsa-cipher
