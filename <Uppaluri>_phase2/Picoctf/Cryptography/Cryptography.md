@@ -93,6 +93,12 @@ picoctf{custom_d2cr0pt6d_019c831c}
 - How to decrypt a cipher manually.
 
 ***
+
+# 3. RSA Oracle
+> Can you abuse the oracle?
+An attacker was able to intercept communications between a bank and a fintech company. They managed to get the message (ciphertext) and the password that was used to encrypt the message.
+After some intensive reconassainance they found out that the bank has an oracle that was used to encrypt the password and can be found here nc titan.picoctf.net 59812. Decrypt the password and use it to decrypt the message. The oracle can decrypt anything except the password.
+
 ## Solution:
 -  First i analyze the port. After doing nc titan.picoctf.net 59812. I understood that u can either decrypt or encrypt numbers. I entered the given enc password but it says im sorry you can't do that.
 -  After understanding how this encrypting works, I understood that i need to make a decrypting program
