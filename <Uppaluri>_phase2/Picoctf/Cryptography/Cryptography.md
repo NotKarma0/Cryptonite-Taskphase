@@ -93,4 +93,65 @@ picoctf{custom_d2cr0pt6d_019c831c}
 - How to decrypt a cipher manually.
 
 ***
+## Solution:
+-  First i analyze the port. After doing nc titan.picoctf.net 59812. I understood that u can either decrypt or encrypt numbers. I entered the given enc password but it says im sorry you can't do that.
+-  After understanding how this encrypting works, I understood that i need to make a decrypting program
+- After a lot of unsuccessfull attempts, and help from chatgpt i got the code.
+- To run this code i had to create a virtual environment venv, and do python3 encrypt.py
+```
+from pwn import *
+
+context.log_level='critical'
+p = remote("titan.picoctf.net", 61923)
+
+p.recvuntil(b"decrypt.")
+
+with open("password.enc") as file:
+    c = int(file.read())
+
+p.sendline(b"E")
+p.recvuntil(b"keysize): ")
+p.sendline(b"\x02")
+p.recvuntil(b"mod n) ")
+
+c_a = int(p.recvline())
+
+p.sendline(b"D")
+p.recvuntil(b"decrypt: ")
+p.sendline(str(c_a*c).encode())
+p.recvuntil(b"mod n): ")
+
+password = int(p.recvline(), 16) // 2
+password = password.to_bytes(len(str(password))-7, "big").decode("utf-8")
+
+print("Password:", password)
+```
+This gave me the password.
+To get the final flag this was used. And the passwrod entered was 24bcb.
+```
+openssl enc -aes-256-cbc -d -in secret.enc
+```
+- And i got the flag.
+## Flag:
+```
+picoCTF{su((3ss_(r@ck1ng_r3@_24bcbc66}
+```
+
+## Resources:
+- (https://crypto.stackexchange.com/questions/2323/how-does-a-chosen-plaintext-attack-on-rsa-work/2331#2331)
+
+## Concepts learnt:
+- How RSA oracle works
+- How i can use pwn tools and inport pwn tools in a python code.
+- How to decrypt and get the flag
+- Basically everything was new to me.
+
+## Notes:
+- Everything.
+
+# Resources:
+- (https://crypto.stackexchange.com/questions/2323/how-does-a-chosen-plaintext-attack-on-rsa-work/2331#2331)
+- And also the help of chatgpt was used.
+
+*** 
 
