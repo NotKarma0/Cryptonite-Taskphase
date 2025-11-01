@@ -1,4 +1,4 @@
-# IQ test:
+# 1. IQ test:
 > let your input x = 30478191278.
 
 wrap your answer with nite{ } for the flag.
@@ -14,7 +14,7 @@ As an example, entering x = 34359738368 gives (y0, ..., y11), so the flag would 
 ## Concepts learned:
 - Hardwork, patience.
 
-# i_like_logic
+# 2. i_like_logic
 > i like logic and i like files, apparently, they have something in common, what should my next step be.
 
 ## Solutions: 
@@ -38,7 +38,7 @@ FCSC{b1dee4eeadf6c4e60aeb142b0b486344e64b12b40d1046de95c89ba5e23a9925}
 - Chatgpt helped me a bit on how to use the software.
 
 ***
-# bare-metal-alchemist
+# 3. bare-metal-alchemist
 > my friend recommended me this anime but i think i've heard a wrong name.
 
 ## Solution:
