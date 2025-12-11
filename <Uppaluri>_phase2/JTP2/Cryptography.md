@@ -494,5 +494,4 @@ nite{D4v1d_B0w13-s_0dds_w3r3_n3v3r_1n_y0ur_f4v0r}
 - https://aes.cryptohack.org/ecb_oracle/
 - https://www.ctfrecipes.com/cryptography/symmetric-cryptography/aes/mode-of-operation/ecb/ecb-oracle
 - Chatgpt helped me completely to build the code.
-- Chatgpt to help me build the code.
 
