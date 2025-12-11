@@ -307,7 +307,192 @@ nite{g0ld3n_t1ck3t_t0_gl4sg0w}
 
 - I have learnt how to solve complex functions which use the modular function.
 
-## Resources:
 
+# 5. spAES Oddity
+
+DESCRIPTION:
+First `cd` into the `src` directory. Then run:
+
+```bash
+docker-compose up --build -d
+```
+
+You can then connect with:
+
+```bash
+nc localhost 4590
+```
+
+After solving locally, connect to the challenge with:
+```
+nc spaesoddity.nitephase.live 45673
+```
+
+## Solution:
+- This problem took me more than 3 days to solve.
+- The idea beheind it is: The program takes an odd-input and encrypts it with a random key generated everytime u connect to the server.
+- Now, to get the flag. We fist input a 15 byte input. The first byte of the flag is padded to the input, and then its encrypted.
+- Then we input a 17 byte input, Now there are two blocks each block gets encrypted seperately. The 17 byte input is basically 15 byte previous input + testing char+ random 
+- We then brute force and try every character in place of testing char until the first half of the 17 byte encrypted output matches the 15 byte padded and encrypted input
+- Then we do the same for 13 byte, 11 byte, 9 byte so on giving us two bytes per progress made.
+- At the end we get the final flag.
+  
+```
+from pwn import *
+import string
+
+# ----------------------------
+# Server config
+# ----------------------------
+HOST = "spaesoddity.nitephase.live"
+PORT = 45673
+
+# Allowed characters likely inside the flag
+POOL = string.ascii_lowercase + string.digits + "-_ABCD{}"
+
+
+# ===========================================================
+# 1. Communication wrappers (renamed + disguised)
+# ===========================================================
+
+def open_portal():
+    """Connect to remote oracle."""
+    return remote(HOST, PORT)
+
+def wait_prompt(conn):
+    """Wait until the oracle asks for hex input."""
+    conn.recvuntil(b"input in hex:")
+
+def drop(conn, data: bytes):
+    """Send a hex string."""
+    conn.sendline(data)
+
+def fetch_line(conn):
+    """Read single output line."""
+    return conn.recvline().strip()
+
+
+# ===========================================================
+# 2. Oracle interaction (renamed + disguised)
+# ===========================================================
+
+def cipher_door(conn, msg_hex: str):
+    """
+    Sends a hex payload and retrieves ciphertext.
+    Returns None if the oracle refuses input.
+    """
+    wait_prompt(conn)
+    drop(conn, msg_hex.encode())
+
+    out = fetch_line(conn).decode()
+    if "Major Tom" in out:
+        return None
+    return out  # hex ciphertext
+
+
+# ===========================================================
+# 3. Attack logic (cleaned + disguised)
+# ===========================================================
+
+def mission_start():
+    conn = open_portal()
+    result = ""
+
+    # ------------------------------------
+    # FIRST CHARACTER ONLY (special case)
+    # ------------------------------------
+    print("[*] Starting extraction...")
+
+    pad = b"A" * 15
+    base_hex = cipher_door(conn, pad.hex())
+
+    if base_hex is None:
+        print("[-] Oracle rejected initial probe.")
+        conn.close()
+        return
+
+    target_block = base_hex[:32]  # first AES block
+
+    found_first = False
+    for ch in POOL:
+        crafted = pad + ch.encode() + (b"A" * 15)
+        test = cipher_door(conn, crafted.hex())
+        if test and test[:32] == target_block:
+            result += ch
+            print(f"[Part 1] {result}")
+            found_first = True
+            break
+
+    if not found_first:
+        print("[-] Failed to extract first byte.")
+        conn.close()
+        return
+
+    # ------------------------------------
+    # MAIN LOOP (2 bytes at a time)
+    # ------------------------------------
+    while len(result) < 49:
+        next_total = len(result) + 2
+        left_pad_len = (16 - (next_total % 16)) % 16
+        block_index = (left_pad_len + next_total) // 16 - 1
+
+        left_pad = b"A" * left_pad_len
+
+        base = cipher_door(conn, left_pad.hex())
+        if base is None:
+            print("[-] Oracle refused base query.")
+            break
+
+        ref_block = base[block_index * 32 : block_index * 32 + 32]
+
+        solved_pair = False
+
+        for a in POOL:
+            for b in POOL:
+                guess = (result + a + b).encode()
+                crafted = left_pad + guess + (b"A" * 15)
+
+                attempt = cipher_door(conn, crafted.hex())
+                if attempt and attempt[block_index * 32 : block_index * 32 + 32] == ref_block:
+                    result += a + b
+                    print(f"[Part {len(result)}] {result}")
+                    solved_pair = True
+                    break
+            if solved_pair:
+                break
+
+        if not solved_pair:
+            print("[-] Could not match any pair.")
+            break
+
+    print("\n[Final Flag]", result)
+    conn.close()
+
+
+# ===========================================================
+# Entry
+# ===========================================================
+if __name__ == "__main__":
+    mission_start()
+
+```
+
+## Flag:
+```
+nite{D4v1d_B0w13-s_0dds_w3r3_n3v3r_1n_y0ur_f4v0r}
+```
+
+## Concepts learnt:
+
+- AES encryption.
+- How to get the hidden padded value which is added to the input without the requiement of knowing the key  <   >
+
+## Resouces:
+
+- https://www.youtube.com/watch?v=C4ATDMIz5wc&t=2s
+- https://www.youtube.com/watch?v=SLeTFY40PZQ&t=443s
+- https://aes.cryptohack.org/ecb_oracle/
+- https://www.ctfrecipes.com/cryptography/symmetric-cryptography/aes/mode-of-operation/ecb/ecb-oracle
+- Chatgpt helped me completely to build the code.
 - Chatgpt to help me build the code.
 
