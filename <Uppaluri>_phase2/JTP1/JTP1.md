@@ -2245,3 +2245,111 @@ pwn.college{Ur-DsxMbC6vYZ5cjfXNemiopuWN.QX5YDO1wSNxEzNzEzW}
 2. `$?` stores the exit code of the last executed command.
 
 
+# 10. Untangling Users
+
+## Becoming root with su
+
+This challenge introduces the `root` command.
+
+### My solve
+
+**Flag** `pwn.college{Uh-3En3ZAIwwGLpKi5FotA-WIR-.QX1UDN1wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on [pwn.college](https://pwn.college/linux-luminarium/hello/) to complete the challenge.
+
+```bash
+hacker@users~becoming-root-with-su:~$ su
+Password:
+root@users~becoming-root-with-su:/home/hacker# cat /flag
+pwn.college{Uh-3En3ZAIwwGLpKi5FotA-WIR-.QX1UDN1wSNxEzNzEzW}
+```
+
+### What i learned
+
+1. There are two utilities that are used with root- su and sudo.
+2. Before allowing the user to acess root Linux asks for root password.
+
+## Other users with su
+
+This challenge explores more of the `su` command.
+
+### My solve
+
+**Flag** `pwn.college{obFLfml-hBk5UDH8XFwLN8tn7hS.QX2UDN1wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on [pwn.college](https://pwn.college/linux-luminarium/hello/) to complete the challenge.
+
+```bash
+hacker@users~other-users-with-su:~$ su zardus
+Password:
+zardus@users~other-users-with-su:/home/hacker$ /challenge/run
+Congratulations, you have become Zardus! Here is your flag:
+pwn.college{obFLfml-hBk5UDH8XFwLN8tn7hS.QX2UDN1wSNxEzNzEzW}
+```
+
+### What i learned
+
+1. We can also give username as an arguement to `su` which switches to that user instead of root.
+
+## Cracking Passwords
+
+This challenge required us to crack the password through.
+
+### My solve
+
+**Flag** `pwn.college{U-b1YDUgmRCloHQFI0pkURLQrZB.QX3UDN1wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on [pwn.college](https://pwn.college/linux-luminarium/hello/) to complete the challenge.
+
+```bash
+hacker@users~cracking-passwords:~$ cat /challenge/shadow-leak
+...
+```
+
+### What i learned
+
+1. i learned how to input,save and then link an ec=xternal file to the Linux prompt.
+2. How to crack a password using `su` command.
+
+## Using sudo
+
+This challenge introduces the `sudo` command.
+
+### My solve
+
+**Flag** `pwn.college{kj76d_cHZaDvKPdVDNx8TYqnlMb.QX4UDN1wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on [pwn.college](https://pwn.college/linux-luminarium/hello/) to complete the challenge.
+
+```bash
+hacker@users~using-sudo:~$ sudo cat /flag
+pwn.college{kj76d_cHZaDvKPdVDNx8TYqnlMb.QX4UDN1wSNxEzNzEzW}
+```
+
+### What i learned
+
+1. unlike the `su` command `sudo` checks policies to determine whether the user is authorized to run commands as root. same witht his too
