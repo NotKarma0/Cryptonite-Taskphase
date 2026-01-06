@@ -2039,5 +2039,209 @@ pwn.college{4q_-gm98mBig7n3BT8k0yKv3yM_.0FM0MDOxwSNxEzNzEzW}
    * `-u`: unique lines only
    * `-R`: random order
 
+# 9. Processes and jobs
+
+## Listing processes
+
+This challenge uses the `ps` command to list running processes.
+
+### My solve
+
+**Flag** `pwn.college{E6OL2Wf9VEiNDrxQG-FSUzL7f7p.QX4MDO0wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@processes~listing-processes:~$ ps -efww
+UID          PID    PPID  C STIME TTY          TIME CMD
+root           1       0  0 04:54 ?        00:00:00 /sbin/docker-init -- /nix/var/nix/profiles/dojo-workspace/bin/dojo-init /run/dojo/bin/sleep 6h
+root           7       1  0 04:54 ?        00:00:00 /run/dojo/bin/sleep 6h
+root         132       1  0 04:54 ?        00:00:00 /challenge/3300-run-29273
+root         135     132  0 04:54 ?        00:00:00 sleep 6h
+hacker       137       0  0 04:54 pts/0    00:00:00 bash /run/dojo/bin/ssh-entrypoint
+hacker       143     137  0 04:54 pts/0    00:00:00 /run/dojo/bin/bash --login
+hacker       156     143  0 04:57 pts/0    00:00:00 ps -efww
+
+hacker@processes~listing-processes:~$ /challenge/3300-run-29273
+Yahaha, you found me! Here is your flag:
+pwn.college{E6OL2Wf9VEiNDrxQG-FSUzL7f7p.QX4MDO0wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. `ps` lists processes running on the system.
+2. System V syntax: `ps -ef` lists all processes in full format.
+3. BSD syntax: `ps aux` lists all users' processes with a readable format.
+
+## Killing processes
+
+This challenge uses the `kill` command to terminate processes.
+
+### My solve
+
+**Flag** `pwn.college{U8awaCxhp0t47PWtcldFNEVeHQD.QXyQDO0wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@processes~killing-processes:~$ ps aux | grep /challenge/dont_run
+hacker       136  0.0  0.0 231576  3520 ?        Ss   05:12   0:00 /challenge/dont_run
+
+hacker@processes~killing-processes:~$ kill 136
+
+hacker@processes~killing-processes:~$ /challenge/run
+Great job! Here is your payment:
+pwn.college{U8awaCxhp0t47PWtcldFNEVeHQD.QXyQDO0wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. The `kill` command terminates a process using its PID.
+
+## Interrupting processes
+
+This challenge uses Ctrl-C to interrupt a process.
+
+### My solve
+
+**Flag** `pwn.college{I_dsRdkr3cVGoF6uoakc-ruEgd-.QXzQDO0wSNxEzNzEzW}`
+
+```bash
+hacker@processes~interrupting-processes:~$ /challenge/run
+^C
+Good job! You have used Ctrl-C to interrupt this process! Here is your flag:
+pwn.college{I_dsRdkr3cVGoF6uoakc-ruEgd-.QXzQDO0wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. Ctrl-C sends the SIGINT signal to interrupt a running process.
+
+## Suspending processes
+
+This challenge requires suspending a process instead of interrupting it.
+
+### My solve
+
+**Flag** `pwn.college{Af0i3lYX738_Imp2mFYF0K37QLS.QX1QDO0wSNxEzNzEzW}`
+
+```bash
+hacker@processes~suspending-processes:~$ /challenge/run
+^Z
+[1]+  Stopped                 /challenge/run
+
+hacker@processes~suspending-processes:~$ /challenge/run
+Yay, I found another version of me! Here is the flag:
+pwn.college{Af0i3lYX738_Imp2mFYF0K37QLS.QX1QDO0wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. Ctrl-Z suspends a running process.
+
+## Resuming processes
+
+This challenge asks us to resume a suspended process.
+
+### My solve
+
+**Flag** `pwn.college{cN5KZwyRNUn1kXO6Bz8dTRTwdXu.QX2QDO0wSNxEzNzEzW}`
+
+```bash
+hacker@processes~resuming-processes:~$ fg
+/challenge/run
+I'm back! Here's your flag:
+pwn.college{cN5KZwyRNUn1kXO6Bz8dTRTwdXu.QX2QDO0wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. The `fg` command resumes a suspended job in the foreground.
+
+## Backgrounding processes
+
+This challenge uses the `bg` command.
+
+### My solve
+
+**Flag** `pwn.college{oiko-PjXycL-NxRk8sDiY4mnctN.QX3QDO0wSNxEzNzEzW}`
+
+```bash
+hacker@processes~backgrounding-processes:~$ bg
+[1]+ /challenge/run &
+```
+
+### What I learned
+
+1. `bg` resumes a suspended process in the background.
+2. Process states: `T` = stopped, `S` = sleeping, `R` = running.
+
+## Foregrounding processes
+
+This challenge uses `fg` multiple times.
+
+### My solve
+
+**Flag** `pwn.college{omtmBaVXocHiYb-iEOhw9HhTPOT.QX4QDO0wSNxEzNzEzW}`
+
+```bash
+hacker@processes~foregrounding-processes:~$ fg
+/challenge/run
+pwn.college{omtmBaVXocHiYb-iEOhw9HhTPOT.QX4QDO0wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. Backgrounded jobs can be brought to the foreground using `fg`.
+
+## Starting background processes
+
+This challenge uses `&` to background processes.
+
+### My solve
+
+**Flag** `pwn.college{0q2siVkhptdglMzjtt7rGh4Ad28.QX5QDO0wSNxEzNzEzW}`
+
+```bash
+hacker@processes~starting-backgrounded-processes:~$ /challenge/run &
+[1] 142
+pwn.college{0q2siVkhptdglMzjtt7rGh4Ad28.QX5QDO0wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. Appending `&` starts a process directly in the background.
+
+## Process exit codes
+
+This challenge focuses on exit codes.
+
+### My solve
+
+**Flag** `pwn.college{Ur-DsxMbC6vYZ5cjfXNemiopuWN.QX5YDO1wSNxEzNzEzW}`
+
+```bash
+hacker@processes~process-exit-codes:~$ /challenge/get-code
+hacker@processes~process-exit-codes:~$ /challenge/submit-code $?
+CORRECT! Here is your flag:
+pwn.college{Ur-DsxMbC6vYZ5cjfXNemiopuWN.QX5YDO1wSNxEzNzEzW}
+```
+
+### What I learned
+
+1. Every command exits with a numeric exit code.
+2. `$?` stores the exit code of the last executed command.
 
 
