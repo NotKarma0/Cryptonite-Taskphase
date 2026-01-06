@@ -2352,4 +2352,139 @@ pwn.college{kj76d_cHZaDvKPdVDNx8TYqnlMb.QX4UDN1wSNxEzNzEzW}
 
 ### What i learned
 
-1. unlike the `su` command `sudo` checks policies to determine whether the user is authorized to run commands as root. same witht his too
+1. unlike the `su` command `sudo` checks policies to determine whether the user is authorized to run commands as root. same with this too
+
+# 11. Perceiving Permissions
+
+## Changing file ownership
+
+This challenge uses the `chown` command to change ownerhip of the files.
+
+### My solve
+
+**Flag** `pwn.college{85J4nNMsVkH9SqGA2d9LJyEiTUC.QXxEjN0wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on [pwn.college](https://pwn.college/linux-luminarium/hello/) to complete the challenge.
+
+```bash
+hacker@permissions~changing-file-ownership:~$ chown hacker /flag
+hacker@permissions~changing-file-ownership:~$ cat /flag
+pwn.college{85J4nNMsVkH9SqGA2d9LJyEiTUC.QXxEjN0wSNxEzNzEzW}
+```
+
+### What i learned
+
+1. `chown` can only be invoked by the root user.
+
+## Groups and files
+
+This challenges uses the `chgrp` command to change groups.
+
+### My solve
+
+**Flag** `pwn.college{oZibhgIFQ9jb1qAARu0hy2hsFkq.QXxcjM1wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on [pwn.college](https://pwn.college/linux-luminarium/hello/) to complete the challenge.
+
+```bash
+hacker@permissions~groups-and-files:~$ chgrp hacker /flag
+hacker@permissions~groups-and-files:~$ cat /flag
+pwn.college{oZibhgIFQ9jb1qAARu0hy2hsFkq.QXxcjM1wSNxEzNzEzW}
+```
+
+### What i learned
+
+The group ownership can be changed with the `chgrp` command.
+
+## Fun with group names
+
+This challenge requires us to find the name of the changed group and `chgrp` it.
+
+### My solve
+
+**Flag** `pwn.college{gLrHGpLoz_AvEC51A36zeeuSDxP.QXycjM1wSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on [pwn.college](https://pwn.college/linux-luminarium/hello/) to complete the challenge.
+
+```bash
+hacker@permissions~fun-with-groups-names:~$ id
+uid=1000(hacker) gid=1000(grp12267) groups=1000(grp12267)
+hacker@permissions~fun-with-groups-names:~$ chgrp grp12267 /flag
+hacker@permissions~fun-with-groups-names:~$ cat /flag
+pwn.college{gLrHGpLoz_AvEC51A36zeeuSDxP.QXycjM1wSNxEzNzEzW}
+```
+
+### What i learned
+
+I learnt how to search for the changed group name and `chgrp` it.
+
+## Changing permissions
+
+This challenge requires us to change the persmission of a file using `chmod`.
+
+### My solve
+
+**Flag** `pwn.college{Ul_DS0HxAiB0GGM1yA9ig48vJ_K.QXzcjM1wSNxEzNzEzW}`
+
+```bash
+hacker@permissions~changing-permissions:~$ chmod a+r /flag
+hacker@permissions~changing-permissions:~$ cat /flag
+pwn.college{Ul_DS0HxAiB0GGM1yA9ig48vJ_K.QXzcjM1wSNxEzNzEzW}
+```
+
+### What i learned
+
+1. File permissions can be changed using the `chmod` command.
+
+## Executable files
+
+In this challenge the `/challenge/run` would only work if we had execute-access.
+
+### My solve
+
+**Flag** `pwn.college{8cnvSoT3wfz3iLVg0bjFOMj8XYW.QXyEjN0wSNxEzNzEzW}`
+
+```bash
+hacker@permissions~executable-files:~$ chmod +x /challenge/run
+hacker@permissions~executable-files:~$ /challenge/run
+```
+
+### What i learned
+
+Executable permission is required to run a file.
+
+## The SUID Bit
+
+This challenge makes us set a file's SUID bit by using `chmod`.
+
+### My solve
+
+**Flag** `pwn.college{gfFEYP9JPMRnAgAXM21BtoPhj0U.QXzEjN0wSNxEzNzEzW}`
+
+```bash
+hacker@permissions~the-suid-bit:~$ chmod u+s /challenge/getroot
+hacker@permissions~the-suid-bit:~$ /challenge/getroot
+```
+
+### What i learned
+
+1. The SUID bit allows a program to run as the file owner.
+
