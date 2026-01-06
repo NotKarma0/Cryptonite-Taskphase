@@ -1064,7 +1064,7 @@ pwn.college{UkRMrqkDZoHZ8M142AodJuNkLVi.0FN0EzNxwSNxEzNzEzW}
 - The tab button can be used to autofill the path of the file.
 
 
-# Multiple options for tab completion 
+## Multiple options for tab completion 
 This challenge requires us to use tab to complete commands for the suggested ones by the terminal.
 
 ### My solution
