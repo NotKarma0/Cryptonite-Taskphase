@@ -1870,4 +1870,174 @@ pwn.college{gJP2lM7qeVmwr0xFSKdAuV8O8bh.QXwIDO0wSNxEzNzEzW}
 
 The use of directly reading input from a file.
 
+# 6. Data manupulation
+
+## Translating characters
+
+This challenge used the `tr` command to translate a string.
+
+### My solve
+
+**Flag:** `pwn.college{Ul0XhyMLDSg3DPskaGAQsqvTleM.01MxEzNxwSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@data~translating-characters:~$ /challenge/run | tr 'a-zA-Z' 'A-Za-z'
+yOUR CASE-SWAPPED FLAG:
+pwn.college{Ul0XhyMLDSg3DPskaGAQsqvTleM.01MxEzNxwSNxEzNzEzW}
+```
+
+### What I learned
+
+1. `tr` translates the characters provided in its first argument to the characters provided in its second argument.
+2. It translates characters it receives over standard input and prints them to standard output.
+
+## Deleting characters
+
+This challenge makes us delete particular parts of a command.
+
+### My solve
+
+**Flag:** `pwn.college{Ul0XhyMLDSg3DPskaGAQsqvTleM.01MxEzNxwSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@data~deleting-characters:~$ /challenge/run
+Your character-stuffed flag:
+p^%w^%n^.^c^ol%l^eg^%e^{%Q%0%g^%J%p%B%5%fEScd^%P^%w^61^%W^%oiK^%i^%b^S^%O^%B^%j^%_^.^0%F%N%x%Ez^%N^%x%w%S^N%x^E^z^%Nz^%E%z%W%}^%^%
+
+hacker@data~deleting-characters:~$ /challenge/run | tr -d '^%'
+Your character-stuffed flag:
+pwn.college{Q0gJpB5fEScdPw61WoiKibSOBj_.0FNxEzNxwSNxEzNzEzW}
+```
+
+### What I learned
+
+1. `tr` can also be used to delete characters using the `-d` flag followed by the characters to delete.
+
+## Deleting newlines
+
+This challenge deletes newline characters.
+
+### My solve
+
+**Flag:** `pwn.college{4O9c0JYgSK39JWM_m7ROwkhD4b1.0VNxEzNxwSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@data~deleting-newlines:~$ /challenge/run | tr -d '\n'
+Your line-split flag: pwn.college{4O9c0JYgSK39JWM_m7ROwkhD4b1.0VN}
+```
+
+### What I learned
+
+1. To represent a newline character in `tr`, we use `\n`.
+2. Backslashes must be escaped when used inside quotes.
+
+## Extracting the first few lines using head
+
+This challenge uses the `head` command to display the first few lines of input.
+
+### My solve
+
+**Flag:** `pwn.college{QMrCKyEI-SKF1wdFwAFRqMN6jwG.0lNxEzNxwSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@data~extracting-the-first-lines-with-head:~$ /challenge/pwn | head -n 7 | /challenge/college
+Congratulations, you piped the right codes!
+pwn.college{QMrCKyEI-SKF1wdFwAFRqMN6jwG.0lNxEzNxwSNxEzNzEzW}
+```
+
+### What I learned
+
+1. By default, `head` displays the first 10 lines.
+2. The `-n` option allows us to specify how many lines to display.
+
+## Extracting specific sections of text
+
+This challenge uses the `cut` command to extract specific columns of data.
+
+### My solve
+
+**Flag:** `pwn.college{0AwnUjg7gOCzS-qx0eT42DxGmeR.01NxEzNxwSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@data~extracting-specific-sections-of-text:~$ /challenge/run | cut -d " " -f2 | tr -d '\n'
+pwn.college{0AwnUjg7gOCzS-qx0eT42DxGmeR.01NxEzNxwSNxEzNzEzW}
+```
+
+### What I learned
+
+1. The `-d` option specifies the delimiter between columns.
+2. The `-f` option specifies which field (column) to extract.
+
+## Sorting data
+
+This challenge uses the `sort` command to order data.
+
+### My solve
+
+**Flag:** `pwn.college{4q_-gm98mBig7n3BT8k0yKv3yM_.0FM0MDOxwSNxEzNzEzW}`
+
+1. I connected the dojo host using SSH command.
+
+```bash
+root@LAPTOP-IDCKVPOM:~# ssh  -i ./key hacker@dojo.pwn.college
+```
+
+2. Now the shell is connected to dojo. Now, I got the flag that I can submit on pwn.college to complete the challenge.
+
+```bash
+hacker@data~sorting-data:~$ cat /challenge/flags.txt | sort | tail -n 1
+pwn.college{4q_-gm98mBig7n3BT8k0yKv3yM_.0FM0MDOxwSNxEzNzEzW}
+```
+
+### What I learned
+
+1. By default, `sort` orders lines alphabetically.
+2. Common options:
+
+   * `-r`: reverse order
+   * `-n`: numeric sort
+   * `-u`: unique lines only
+   * `-R`: random order
+
+
 
