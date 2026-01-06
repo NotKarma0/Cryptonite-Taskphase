@@ -1870,7 +1870,7 @@ pwn.college{gJP2lM7qeVmwr0xFSKdAuV8O8bh.QXwIDO0wSNxEzNzEzW}
 
 The use of directly reading input from a file.
 
-# 6. Data manupulation
+# 7. Data manupulation
 
 ## Translating characters
 
